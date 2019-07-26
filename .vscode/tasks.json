@@ -1,0 +1,92 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "clean",
+      "command": "dotnet clean",
+      "type": "shell",
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/src/backend"
+      }
+    },
+    {
+      "label": "build: backend",
+      "command": "dotnet build",
+      "type": "shell",
+      "dependsOn": "clean",
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/src/backend"
+      }
+    },
+    {
+      "label": "clean release",
+      "command": "dotnet clean --configuration Release",
+      "type": "shell",
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/src/backend"
+      }
+    },
+    {
+      "label": "publish",
+      "command": "dotnet publish --configuration Release",
+      "type": "shell",
+      "dependsOn": "clean release",
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/src/backend/bin/Debug/netcoreapp2.1"
+      }
+    },
+    {
+      "type": "func",
+      "dependsOn": "build: backend",
+      "options": {
+        "cwd": "${workspaceFolder}/src/backend/bin/Debug/netcoreapp2.1"
+      },
+      "command": "host start",
+      "isBackground": true,
+      "problemMatcher": "$func-watch"
+    },
+    {
+      "type": "shell",
+      "label": "build: web",
+      "options": {
+        "cwd": "${workspaceFolder}/src/booking-form"
+      },
+      "command": [
+        "npm run build"
+      ]
+    },
+    {
+      "type": "shell",
+      "dependsOn": [
+        "build: backend",
+        "build: web"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "label": "build: all"
+    },
+    {
+      "type": "npm",
+      "script": "lint",
+      "path": "src/booking-form/",
+      "problemMatcher": [
+        "$eslint-stylish"
+      ]
+    },
+    {
+      "type": "npm",
+      "script": "start",
+      "path": "src/booking-form/",
+      "problemMatcher": [
+        "$tsc-watch"
+      ],
+      "isBackground": true
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run web app",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run-script", "start"],
+      "port": 9229,
+      "preLaunchTask": "build: web",
+      "cwd": "${workspaceFolder}/src/booking-form",
+      "timeout": 50000
+    },
+    {
+      "name": "Attach to .NET Functions",
+      "type": "coreclr",
+      "request": "attach",
+      "processId": "${command:azureFunctions.pickProcess}"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Run All",
+      "configurations": ["Run web app", "Attach to .NET Functions"]
+    }
+  ]
+}

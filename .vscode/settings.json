@@ -1,0 +1,8 @@
+{
+  "FSharp.fsacRuntime": "netcore",
+  "azureFunctions.projectRuntime": "~2",
+  "azureFunctions.projectLanguage": "C#",
+  "azureFunctions.projectSubpath": "src/backend",
+  "azureFunctions.preDeployTask": "publish",
+  "debug.internalConsoleOptions": "neverOpen"
+}
