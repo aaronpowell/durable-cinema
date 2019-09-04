@@ -7,5 +7,5 @@ open Theater
 type Session =
     { Id: Guid
       StarTime: DateTimeOffset
-      Movie: MovieDetails
+      Movie: MovieSummary
       Theater: Theater }

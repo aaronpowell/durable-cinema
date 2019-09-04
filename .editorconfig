@@ -11,5 +11,5 @@ indent_size = 4
 [*.sh]
 end_of_line = lf
 
-[*.{ts,json,js}]
+[*.{ts,tsx,json,js}]
 indent_size = 2
