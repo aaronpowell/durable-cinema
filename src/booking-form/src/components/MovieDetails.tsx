@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import React from "react";
 import {
   Container,
   Grid,
@@ -7,50 +6,48 @@ import {
   GridListTileBar,
   GridListTile,
   GridList,
-  ListSubheader
+  ListSubheader,
+  Button,
+  CircularProgress
 } from "@material-ui/core";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import useMovie from "../hooks/useMovie";
+import { Link } from "react-router-dom";
+import { MovieRouteParams } from "../typings";
 
-interface CastMember {
-  character: string;
-  actor: string;
-  picture: string;
-  id: string;
-}
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    button: {
+      margin: theme.spacing(1)
+    },
+    input: {
+      display: "none"
+    },
+    link: {
+      textDecoration: "none"
+    },
+    root: {
+      padding: theme.spacing(1)
+    }
+  })
+);
 
-interface Trailer {
-  key: string;
-  name: string;
-  site: string;
-}
-
-interface MovieDetails {
-  title: string;
-  poster: string;
-  runtime?: number;
-  overview: string;
-  cast: CastMember[];
-  videos: Trailer[];
-}
-
-const MovieDetails: React.FC<RouteComponentProps<{ id: string }>> = ({
-  match
-}) => {
+const MovieDetailsComponent: React.FC<MovieRouteParams> = ({ match }) => {
   let id = match.params.id;
+  const classes = useStyles();
 
-  let [movie, setMovie] = useState<MovieDetails>();
+  const [movie, isLoading] = useMovie(id);
 
-  useEffect(() => {
-    fetch("http://localhost:7071/api/movies/" + id)
-      .then(res => res.json())
-      .then(movie => setMovie(movie));
-  }, [id]);
-
-  if (!movie) {
-    return null;
+  if (isLoading || movie === undefined) {
+    return (
+      <Container maxWidth="xl" className={classes.root}>
+        <CircularProgress />
+      </Container>
+    );
   }
 
   return (
-    <Container style={{ padding: "10px" }} maxWidth="xl">
+    <Container className={classes.root} maxWidth="xl">
       <Grid container spacing={3}>
         <Grid item xs={4}>
           <img src={movie.poster} alt={movie.title} height={800} />
@@ -68,6 +65,15 @@ const MovieDetails: React.FC<RouteComponentProps<{ id: string }>> = ({
           <Typography variant="body1" gutterBottom>
             {movie.overview}
           </Typography>
+          <Link to={`/sessions/${id}`} className={classes.link}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              View Sessions
+            </Button>
+          </Link>
           <Typography variant="caption" display="block" gutterBottom>
             Runtime: {movie.runtime ? `${movie.runtime} minutes` : "TBC"}
           </Typography>
@@ -106,4 +112,4 @@ const MovieDetails: React.FC<RouteComponentProps<{ id: string }>> = ({
   );
 };
 
-export default MovieDetails;
+export default MovieDetailsComponent;
