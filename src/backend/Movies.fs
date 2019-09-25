@@ -11,17 +11,17 @@ let private getClient apiKey = new TMDbClient(apiKey, true)
 
 let getNowShowing apiKey =
     let client = getClient apiKey
-    client.GetMovieNowPlayingListAsync(null, 1, "AU") |> Async.AwaitTask
+    client.GetMovieNowPlayingListAsync(null, 1, "AU")
 
 let getMovieById apiKey (id : int) =
     let client = getClient apiKey
     client.GetMovieAsync
         (id, MovieMethods.Credits ||| MovieMethods.Videos,
-         CancellationToken.None) |> Async.AwaitTask
+         CancellationToken.None)
 
 let getConfig apiKey =
     let client = getClient apiKey
-    client.GetConfigAsync() |> Async.AwaitTask
+    client.GetConfigAsync()
 
 type MovieSummary =
     { Title : string

@@ -30,9 +30,9 @@ let getTheater id =
 
 type ITheatersForMovie =
     abstract member Init: Theater array -> unit
+    abstract member Destroy: unit -> Task
 
 type TheatersForMovie() =
-    // member val MovieId = 0 with get, set
     member val Theaters = Array.empty<Theater> with get, set
 
     [<FunctionName("TheatersForMovie")>]
@@ -41,5 +41,16 @@ type TheatersForMovie() =
 
     interface ITheatersForMovie with
         member this.Init theaters =
-            // this.MovieId <- movieId
             this.Theaters <- theaters
+
+        member __.Destroy() =
+            Task.CompletedTask
+
+    member this.Init theaters =
+        (this :> ITheatersForMovie).Init theaters
+
+    member this.Destroy() =
+        (this :> ITheatersForMovie).Destroy()
+
+let getMovieEntityId (movieId: int) =
+    EntityId("TheatersForMovie", movieId.ToString())

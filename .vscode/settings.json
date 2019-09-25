@@ -4,5 +4,6 @@
   "azureFunctions.projectLanguage": "C#",
   "azureFunctions.projectSubpath": "src/backend",
   "azureFunctions.preDeployTask": "publish",
-  "debug.internalConsoleOptions": "neverOpen"
+  "debug.internalConsoleOptions": "neverOpen",
+  "azureFunctions.pickProcessTimeout": 120
 }

@@ -17,20 +17,19 @@ let getTheaters ([<HttpTrigger(AuthorizationLevel.Function, "get",
     (movieId : int)
     ([<DurableClient>] client : IDurableEntityClient) =
     async {
-        let id = EntityId("TheatersForMovie", movieId.ToString())
+        let id = getMovieEntityId movieId
         let! res = client.ReadEntityStateAsync<TheatersForMovie> id
                    |> Async.AwaitTask
         match res.EntityExists with
-        | true -> return OkObjectResult res.EntityState
+        | true -> return OkObjectResult res.EntityState :> IActionResult
         | false ->
             let! theaters = getTheaters
             let r = (Random()).GetValues 1 theaters.Length |> Seq.take 3
             let t = theaters |> Array.filter (fun t -> r |> Seq.contains t.Id)
             do! client.SignalEntityAsync<ITheatersForMovie>
-                    (movieId.ToString(), fun (op : ITheatersForMovie) -> op.Init t)
+                    (id, fun (op : ITheatersForMovie) -> op.Init t)
                 |> Async.AwaitTask
-            let! res = client.ReadEntityStateAsync<TheatersForMovie> id
-                       |> Async.AwaitTask
-            return OkObjectResult res.EntityState
+
+            return CreatedResult("", null) :> IActionResult
     }
     |> Async.StartAsTask

@@ -4,10 +4,8 @@
     "durableTask": {
       "hubName": "cinemabackend",
       "storageProvider": {
-        "emulator": {}
+        "!emulator": { "enabled": true }
       }
-    },
-    "extendedSessionsEnabled": "true",
-    "extendedSessionIdleTimeoutInSeconds": "120"
+    }
   }
 }
