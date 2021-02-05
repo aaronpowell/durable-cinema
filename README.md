@@ -2,7 +2,7 @@
 
 **This is a work in progress**
 
-The goal of this is to make a demo application of using [Azure Functions](https://azure.microsoft.com/en-us/services/functions/?WT.mc_id=durablecinema-github-aapowell) as a backend and [React](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/) as the UI.
+The goal of this is to make a demo application of using [Azure Functions](https://azure.microsoft.com/services/functions/?WT.mc_id=javascript-0000-aapowell) as a backend and [React](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/) as the UI.
 
 ## Getting Started
 
